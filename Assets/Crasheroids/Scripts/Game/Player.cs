@@ -4,49 +4,59 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public float speed;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] public float _speed = 5f;
+    Vector3 _moveDir;
+    [SerializeField] Camera _camera;
 
+    private void Start()
+    {
+        _camera = Camera.main;
+    }
     // Update is called once per frame
     void Update()
     {
-        //temporary storage to calculate movement vector
-        Vector3 movement;
-        //assigns the x axis of the movement vector to match the players' hoizontal input
-        movement.x = Input.GetAxisRaw("Horizontal");
-        //leave y axis alone as we don't want to be move up and down
-        movement.y = Input.GetAxisRaw("Vertical");
-        //assigns the z axis of the movement vector to match the player's vertical input
-        movement.z = 0;
-        //make vector framemate independant
-        movement *= Time.deltaTime;
-        //apply speed multiplayer
-        movement *= speed;
-
-        transform.Translate(movement);
-
-        //Clamp players' position to read inside the field
-        Vector3 clampPos = transform.position;
-        clampPos.x = Mathf.Clamp(clampPos.x, -10, 10);
-        clampPos.z = 0;
-        clampPos.y = Mathf.Clamp(clampPos.y, -5, 5);
-
-        transform.position = clampPos;
+        float _moveX = Input.GetAxis("Horizontal");
+        //float _moveY = Input.GetAxis("Vertical");
+        PlayerMovement(_moveX, 0);
+        StayOnScreen();
+        
     }
 
-    public void MoveRight(Vector2 movement)
+
+    public void PlayerMovement(float moveX, float moveY)
     {
-        //movement code here
-
+        _moveDir = new Vector3(moveX, moveY, 0);
+        _moveDir *= _speed * Time.deltaTime;
+        transform.position += _moveDir;
     }
 
-    public void MoveLeft(Vector2 movement)
+    public void StayOnScreen()
     {
-
+        if (_camera = null)
+        {
+            Vector3 _CameraPos = _camera.WorldToViewportPoint(transform.position);
+            Vector3 newPos = transform.position;
+            _CameraPos.x = Mathf.Clamp(_CameraPos.x, 0, 1);
+            newPos = _camera.ViewportToWorldPoint(_CameraPos);
+            transform.position = newPos;
+        }
     }
 
+ /* public void MoveRight()
+    {
+        transform.Translate(Vector3.right * Time.deltaTime * speed);
+        if (transform.position.x < maxRight)
+        {
+            transform.position = new Vector3(maxRight, -3.22f, 0);
+        }
+    }
+
+    public void MoveLeft()
+    {
+        transform.Translate(Vector3.left * Time.deltaTime * speed);
+        if (transform.position.x < maxLeft)
+        {
+            transform.position = new Vector3(maxLeft, -3.22f, 0);
+        }
+    } */
 }
