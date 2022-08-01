@@ -16,8 +16,8 @@ public class Player : MonoBehaviour
     void Update()
     {
         float _moveX = Input.GetAxis("Horizontal");
-        //float _moveY = Input.GetAxis("Vertical");
-        PlayerMovement(_moveX, 0);
+        float _moveY = Input.GetAxis("Vertical");
+        PlayerMovement(_moveX, _moveY);
         StayOnScreen();
         
     }

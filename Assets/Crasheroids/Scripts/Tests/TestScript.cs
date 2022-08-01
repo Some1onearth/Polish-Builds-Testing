@@ -74,4 +74,48 @@ public class TestScript
 
         Object.Destroy(_gameHandler);
     }
+
+    [UnityTest] //Unity specific test
+    public IEnumerator PlayerMoveDown()
+    {
+        //create player
+        Player player = _gameHandler.GetPlayer();
+
+        //save position
+        float initialYPos = player.transform.position.y;
+
+        //make the player move Left
+        //player.MoveLeft();
+        player.PlayerMovement(0, -1);
+
+        //wait for movement
+        yield return new WaitForSeconds(1f);
+
+        //test if the player has moved right
+        Assert.Less(player.transform.position.y, initialYPos);
+
+        Object.Destroy(_gameHandler);
+    } 
+    
+    [UnityTest] //Unity specific test
+    public IEnumerator PlayerMoveUp()
+    {
+        //create player
+        Player player = _gameHandler.GetPlayer();
+
+        //save position
+        float initialYPos = player.transform.position.y;
+
+        //make the player move Left
+        //player.MoveLeft();
+        player.PlayerMovement(0, 1);
+
+        //wait for movement
+        yield return new WaitForSeconds(1f);
+
+        //test if the player has moved right
+        Assert.Greater(player.transform.position.y, initialYPos);
+
+        Object.Destroy(_gameHandler);
+    }
 }
