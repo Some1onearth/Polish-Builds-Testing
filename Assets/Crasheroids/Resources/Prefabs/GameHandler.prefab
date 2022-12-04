@@ -43,4 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25d0c6d31a7ab8e40b3dfd45952d0eb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 8095850947429958750, guid: c14fb9d18d636b845a838e5a4b9b610a, type: 3}
+  score: 0
+  isGameOver: 0
+  playerPrefab: {fileID: 5409068546767870748, guid: c14fb9d18d636b845a838e5a4b9b610a, type: 3}
+  asteroidPrefab: {fileID: 2038260871769897713, guid: b46d977a145f6dc4f9dd59a703632170, type: 3}
+  bulletPrefab: {fileID: 8523895075565706753, guid: 2c087d59ef0422e45a321908fbc35e62, type: 3}

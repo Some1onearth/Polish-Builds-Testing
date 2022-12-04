@@ -7,12 +7,18 @@ using UnityEngine.TestTools;
 public class TestScript
 {
     GameHandler _gameHandler;
+    Bullet _bullet;
+    Asteroid _asteroid;
 
     [SetUp]
     public void Setup()
     {
         GameObject gameHandler = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/GameHandler"));
         _gameHandler = gameHandler.GetComponent<GameHandler>();
+        //GameObject bullet = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/Bullet"));
+        //_bullet = bullet.GetComponent<Bullet>();
+        //GameObject asteroid = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/Asteroid"));
+        //_asteroid = asteroid.GetComponent<Asteroid>();
     }
 
     [TearDown]
@@ -117,5 +123,30 @@ public class TestScript
         Assert.Greater(player.transform.position.y, initialYPos);
 
         Object.Destroy(_gameHandler);
+    }
+
+    [UnityTest]
+    public IEnumerator BulletDestroysAsteroid()
+    {
+        //get prefabs of both bullet and asteroid and spawn in same position
+        Asteroid asteroid = _gameHandler.GetAsteroid();
+        asteroid.transform.position = Vector3.zero;
+        Bullet bullet = _gameHandler.GetBullet();
+        bullet.transform.position = Vector3.zero;
+        yield return new WaitForSeconds(1f);
+
+        Assert.AreEqual(_gameHandler.score, 1);
+    }
+
+    [UnityTest]
+    public IEnumerator GameOver()
+    {
+        Asteroid asteroid = _gameHandler.GetAsteroid();
+        asteroid.transform.position = Vector3.zero;
+        Player player = _gameHandler.GetPlayer();
+        player.transform.position = Vector3.zero;
+        yield return new WaitForSeconds(1f);
+
+        Assert.True(_gameHandler.isGameOver);
     }
 }
